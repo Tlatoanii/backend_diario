@@ -23,5 +23,5 @@ app.include_router(login_router, tags=["Login"])
 
 @app.get("/")
 def read_root():
-    logger.logInfo("Accediendo a la ruta raíz")
+    log.logInfo("Accediendo a la ruta raíz")
     return {"message": "Bienvenido a la API del Diario Personal"}
