@@ -21,12 +21,12 @@ log = Logger(log_path)
 router = APIRouter()
 @router.post("/registro", status_code=status.HTTP_201_CREATED)
 def registrar_usuario(usuario_in: UsuarioRegistro, db: Session = Depends(get_db)):
-    log.logInfo(f"Intentando registrar usuario: {usuario_in.nombre} {usuario_in.apellidos} con fecha de nacimiento {usuario_in.fecha_nacimiento} y password de longitud {len(usuario_in.password)} caracteres ({len(usuario_in.password.encode('utf-8'))} bytes)")
+    log.logInfo(f"Intentando registrar usuario: {usuario_in.nombre} {usuario_in.nombre_completo} con fecha de nacimiento {usuario_in.fecha_nacimiento} y password de longitud {len(usuario_in.password)} caracteres ({len(usuario_in.password.encode('utf-8'))} bytes)")
     try: 
         hash_password = get_password_hash(usuario_in.password)
         nuevo_usuario = Usuario(
             nombre=usuario_in.nombre,
-            apellidos=usuario_in.apellidos,
+            nombre_completo=usuario_in.nombre_completo,
             fecha_nacimiento=usuario_in.fecha_nacimiento,
             clave_secreta=hash_password
         )

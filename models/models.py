@@ -12,8 +12,8 @@ class Usuario(Base):
     __tablename__ = "usuarios"
     
     id_usuarios = Column(Integer, primary_key=True, autoincrement=True)
-    nombre = Column(String(45), nullable=False)
-    apellidos = Column(String(45), nullable=False)
+    nombre = Column(String(45), unique=True, nullable=False)
+    nombre_completo = Column(String(150), nullable=False)
     fecha_nacimiento = Column(Date, nullable=False)
     clave_secreta = Column(String(200), nullable=False)
     estado = Column(BIT(1), nullable=False, server_default=text("b'1'"))
