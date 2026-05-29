@@ -23,6 +23,11 @@ router = APIRouter()
 def registrar_usuario(usuario_in: UsuarioRegistro, db: Session = Depends(get_db)):
     log.logInfo(f"Intentando registrar usuario: {usuario_in.nombre} {usuario_in.nombre_completo} con fecha de nacimiento {usuario_in.fecha_nacimiento} y password de longitud {len(usuario_in.password)} caracteres ({len(usuario_in.password.encode('utf-8'))} bytes)")
     try: 
+        usuario_repetido = db.query(Usuario).filter(Usuario.nombre == usuario_in.nombre).first()
+        if usuario_repetido:
+            log.logWarning(f"Intento de registro con nombre de usuario repetido: {usuario_in.nombre}")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="El nombre de usuario ya está en uso")
+        
         hash_password = get_password_hash(usuario_in.password)
         nuevo_usuario = Usuario(
             nombre=usuario_in.nombre,
